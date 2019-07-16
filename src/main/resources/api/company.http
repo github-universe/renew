@@ -1,0 +1,5 @@
+### 获取company详情
+GET /company/c02f14a48afb408aaccd1afabde772bf HTTP/1.1
+Host: {{host}}
+
+###

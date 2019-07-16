@@ -1,0 +1,10 @@
+###
+POST /weka/prediction HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "accountNumber": 2,
+    "ipLogin": 3
+}
+###
