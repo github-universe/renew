@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,14 +16,10 @@ import javax.persistence.Table;
 @Entity
 @Table(schema = "public", name = "company_time")
 public class CompanyTime {
-
     @Id
-    @Column(name = "id")
-    private String id;
+    private String companyId;
 
     private String companyName;
-
-    private String companyId;
 
     private Date accountMinBeginAt;
 
