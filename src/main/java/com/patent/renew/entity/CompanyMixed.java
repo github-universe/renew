@@ -2,13 +2,11 @@ package com.patent.renew.entity;
 
 import lombok.Data;
 
-import org.springframework.data.annotation.Id;
-
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -19,7 +17,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "company_mixed_model")
+@Table(schema = "public", name = "company_mixed_model")
 public class CompanyMixed {
 
     @Id

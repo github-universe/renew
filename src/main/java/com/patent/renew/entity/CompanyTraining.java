@@ -19,8 +19,13 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "company_training_model")
+@Table(schema = "public", name = "company_training_model")
 public class CompanyTraining implements Serializable {
+
+
+    @Id
+    @Column(name = "id")
+    private String id;
 
     @Column(name = "account_num")
     private Integer accountNum;

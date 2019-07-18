@@ -15,8 +15,13 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "company_statistics_training_model")
+@Table(schema = "public", name = "company_statistics_training_model")
 public class CompanyStatisticsTraining {
+
+
+    @Id
+    @Column(name = "id")
+    private String id;
 
     @Column(name = "searchnum")
     private Integer searchNum;

@@ -4,7 +4,7 @@ import com.patent.renew.dao.CompanyStatisticsRepository;
 import com.patent.renew.entity.CompanyStatistics;
 import com.patent.renew.entity.CompanyTime;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;

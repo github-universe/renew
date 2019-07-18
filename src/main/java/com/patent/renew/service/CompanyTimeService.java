@@ -3,7 +3,7 @@ package com.patent.renew.service;
 import com.patent.renew.dao.CompanyTimeRepository;
 import com.patent.renew.entity.CompanyTime;
 
-import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,9 +2,6 @@ package com.patent.renew.entity;
 
 import lombok.Data;
 
-import org.joda.time.DateTime;
-
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,6 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(schema = "public", name = "company_statistics_model")
 public class CompanyStatistics {
+
     @Id
     @Column(name = "id")
     private String id;

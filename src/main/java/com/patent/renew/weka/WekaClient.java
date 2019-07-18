@@ -46,6 +46,7 @@ public class WekaClient implements InitializingBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WekaClient.class);
     public static final String RENEW_FIELD = "renew";
+    public static final String IGNORED_ID = "id";
 
     @Autowired
     private DataNormalizeService normalizeService;
@@ -118,12 +119,13 @@ public class WekaClient implements InitializingBean {
             Attribute attribute = instances.attribute(fieldName);
 
             try {
-                if (StringUtils.equals("renew", fieldName)) {
-                    instance.setValue(attribute, (String) field.get(companyTraining));
-                } else {
-                    instance.setValue(attribute, (Integer) field.get(companyTraining));
+                if (!StringUtils.equals(IGNORED_ID, fieldName)) {
+                    if (StringUtils.equals(RENEW_FIELD, fieldName)) {
+                        instance.setValue(attribute, (String) field.get(companyTraining));
+                    } else {
+                        instance.setValue(attribute, (Integer) field.get(companyTraining));
+                    }
                 }
-
             } catch (IllegalAccessException e) {
                 LOGGER.warn("Make base instance error with field: {}", fieldName);
             }
@@ -148,10 +150,12 @@ public class WekaClient implements InitializingBean {
             Attribute attribute = instances.attribute(fieldName);
 
             try {
-                if (StringUtils.equals("renew", fieldName)) {
-                    instance.setValue(attribute, (String) field.get(statisticsTraining));
-                } else {
-                    instance.setValue(attribute, (Integer) field.get(statisticsTraining));
+                if (!StringUtils.equals(IGNORED_ID, fieldName)) {
+                    if (StringUtils.equals(RENEW_FIELD, fieldName)) {
+                        instance.setValue(attribute, (String) field.get(statisticsTraining));
+                    } else {
+                        instance.setValue(attribute, (Integer) field.get(statisticsTraining));
+                    }
                 }
 
             } catch (IllegalAccessException e) {
@@ -178,10 +182,12 @@ public class WekaClient implements InitializingBean {
             Attribute attribute = instances.attribute(fieldName);
 
             try {
-                if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                    instance.setValue(attribute, (String) field.get(mixedTraining));
-                } else {
-                    instance.setValue(attribute, (Integer) field.get(mixedTraining));
+                if (!StringUtils.equals(IGNORED_ID, fieldName)) {
+                    if (StringUtils.equals(RENEW_FIELD, fieldName)) {
+                        instance.setValue(attribute, (String) field.get(mixedTraining));
+                    } else {
+                        instance.setValue(attribute, (Integer) field.get(mixedTraining));
+                    }
                 }
 
             } catch (IllegalAccessException e) {
