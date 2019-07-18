@@ -32,8 +32,8 @@ public class CompanyTraining implements Serializable {
     @Column(name = "ip_login")
     private Integer ipLogin;
 
-    //@Column(name = "account_limited")
-    //private Integer accountLimited;
+    @Column(name = "account_limited")
+    private Integer accountLimited;
 
     @Column(name = "seats")
     private Integer seats;

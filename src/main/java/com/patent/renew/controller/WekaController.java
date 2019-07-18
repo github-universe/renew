@@ -7,7 +7,6 @@ package com.patent.renew.controller;
 import com.patent.renew.dto.CompanyMixedPojo;
 import com.patent.renew.dto.CompanyPojo;
 import com.patent.renew.dto.CompanyStatisticsPojo;
-import com.patent.renew.entity.CompanyStatistics;
 import com.patent.renew.weka.WekaClient;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/weka")
-public class WekaController {
+public class WekaController extends BaseController {
 
     @Autowired
     private WekaClient wekaClient;
@@ -45,7 +44,6 @@ public class WekaController {
         double predictiveValue = wekaClient.predictByMixedStatistics(mixedPojo);
         return ResponseEntity.ok().body(predictiveValue);
     }
-
 
 
 }

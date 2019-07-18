@@ -81,6 +81,20 @@ public class RenewTest {
         System.out.println("Predict p result:" + pResult + ", n result: "+ nResult);
     }
 
+    @Test
+    public void companyTraining() throws Exception {
+        // Load Model
+        ClassPathResource rfModel = new ClassPathResource("model/company_training.model");
+        Classifier clf = (Classifier) SerializationHelper.read(rfModel.getInputStream());
+        // Load test data
+        ClassPathResource testDataResource = new ClassPathResource("arff/company_training.arff");
+        InputStream testDataResourceInputStream = testDataResource.getInputStream();
+        Instances testSet = new Instances(new BufferedReader(new InputStreamReader(testDataResourceInputStream)));
+        double pResult = clf.classifyInstance(testSet.firstInstance());
+        double nResult = clf.classifyInstance(testSet.lastInstance());
+        System.out.println("Predict p result:" + pResult + ", n result: "+ nResult);
+    }
+
     private Instances getInstances() {
         String nameOfDataset = "renew";
         // Create vector of attributes.

@@ -64,6 +64,7 @@ public class WekaClient implements InitializingBean {
         Class<?> cls = Class.forName("com.patent.renew.entity.CompanyTraining");
         Instances baseInstances = makeInstances(nameOfDataSet, cls);
         Instance toPredictInstance = makeBaseInstance(baseInstances, companyPojo);
+        baseInstances.add(toPredictInstance);
         double value = companyBaseClassifier.classifyInstance(toPredictInstance);
         LOGGER.info("Predict base info : {} , value is {}.", companyPojo, value);
         return value;
@@ -88,6 +89,7 @@ public class WekaClient implements InitializingBean {
         Instances mixedInstances = makeInstances(nameOfDataSet, cls);
 
         Instance toPredictInstance = makeMixedInstance(mixedInstances, mixedPojo);
+        mixedInstances.add(toPredictInstance);
         double value = companyMixedClassifier.classifyInstance(toPredictInstance);
         LOGGER.info("Predict mixed info : {} , value is {}.", mixedPojo, value);
         return value;
@@ -99,11 +101,16 @@ public class WekaClient implements InitializingBean {
         ArrayList<Attribute> attributes = new ArrayList<>(fields.length);
         Arrays.asList(fields).parallelStream().forEach(field -> {
             // Set value for message attribute
-            String fieldName = field.getName();
-            attributes.add(new Attribute(fieldName));
+//            String fieldName = field.getName();
+//            attributes.add(new Attribute(fieldName));
+            if (!StringUtils.equals(IGNORED_ID, field.getName())) {
+                String fieldName = field.getName();
+                attributes.add(new Attribute(fieldName));
+            }
         });
 
-        return new Instances(nameOfDataset, attributes, 100);
+        Instances instances = new Instances(nameOfDataset, attributes, 100);
+        return instances;
     }
 
     private Instance makeBaseInstance(Instances instances, CompanyPojo companyPojo) {
@@ -143,7 +150,7 @@ public class WekaClient implements InitializingBean {
         // Create instance of length fields.
         Instance instance = new DenseInstance(fields.length);
 
-        Arrays.asList(fields).parallelStream().forEach(field -> {
+        Arrays.stream(fields).forEach(field -> {
             // Set value for message attribute
             field.setAccessible(true);
             String fieldName = field.getName();
@@ -175,7 +182,7 @@ public class WekaClient implements InitializingBean {
         // Create instance of length fields.
         Instance instance = new DenseInstance(fields.length);
 
-        Arrays.asList(fields).parallelStream().forEach(field -> {
+        Arrays.stream(fields).forEach(field -> {
             // Set value for message attribute
             field.setAccessible(true);
             String fieldName = field.getName();
@@ -183,11 +190,14 @@ public class WekaClient implements InitializingBean {
 
             try {
                 if (!StringUtils.equals(IGNORED_ID, fieldName)) {
-                    if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                        instance.setValue(attribute, Integer.valueOf((String) field.get(mixedTraining)));
-                    } else {
-                        instance.setValue(attribute, (Integer) field.get(mixedTraining));
-                    }
+                    LOGGER.info("field.get(mixedTraining)", field.get(mixedTraining));
+                    instance.setValue(attribute, (Integer) field.get(mixedTraining));
+//                    if (StringUtils.equals(RENEW_FIELD, fieldName)) {
+//                        instance.setValue(attribute, Integer.valueOf((String) field.get(mixedTraining)));
+//                    } else {
+//                        LOGGER.info("field.get(mixedTraining): {}", field.get(mixedTraining));
+//                        instance.setValue(attribute, (Integer) field.get(mixedTraining));
+//                    }
                 }
 
             } catch (IllegalAccessException e) {
@@ -236,7 +246,8 @@ public class WekaClient implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         // Load base Model
-        ClassPathResource companyBaseModel = new ClassPathResource("model/company_base_JRIP.model");
+//        ClassPathResource companyBaseModel = new ClassPathResource("model/company_base_JRIP.model");
+        ClassPathResource companyBaseModel = new ClassPathResource("model/company_training.model");
         companyBaseClassifier = (Classifier) SerializationHelper.read(companyBaseModel.getInputStream());
 
         // Load statistics Model
@@ -244,7 +255,8 @@ public class WekaClient implements InitializingBean {
         companyStatisticsClassifier = (Classifier) SerializationHelper.read(companyStatisticsModel.getInputStream());
 
         // Load mixed Model
-        ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed.model");
+//        ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed.model");
+        ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed_training.model");
         companyMixedClassifier = (Classifier) SerializationHelper.read(companyMixedModel.getInputStream());
     }
 }

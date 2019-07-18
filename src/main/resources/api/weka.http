@@ -8,3 +8,68 @@ Content-Type: application/json
     "ipLogin": 3
 }
 ###
+
+POST /weka/base/prediction HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "accountNum": 20,
+    "ipLogin": 10,
+    "accountLimited": 10,
+    "seats":1,
+    "ruleIndependentNum":10,
+    "ays":10000,
+    "dbAys":1000,
+    "dbSearch":100,
+    "dbSuper":1,
+    "dbTrial":1,
+    "pro":1,
+    "landscape":1,
+    "npl":1000,
+    "smeBasic":1,
+    "workspace":100000,
+    "chemicalMoc":1,
+    "ipreportPro":1,
+    "insights":1,
+    "renew":1
+}
+###
+POST /weka/mixed/prediction HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "accountNum": 2,
+    "ipLogin": 10,
+    "seats":10,
+    "loginNum":1000,
+    "ruleIndependentNum":10,
+    "ays":10,
+    "dbAys":10,
+    "dbSearch":1,
+    "dbSuper":10,
+    "dbTrial":1,
+    "pro":1,
+    "landscape":1,
+    "npl":100,
+    "smeBasic":10,
+    "workspace":1,
+    "chemicalMoc":1,
+    "ipreportPro":1,
+    "insights":1,
+
+    "searchNum":1,
+    "exportNum":1000,
+
+    "analysisNum":10,
+    "landscapeNum":1,
+    "viewNum":1,
+    "chemicalNum":1,
+    "alertCreatedNum":1,
+    "workSpaceCreatedNum":100,
+    "renew":1,
+    "beginAt":1563456473000,
+    "endAt":1563456473000
+}
+###

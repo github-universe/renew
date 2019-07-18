@@ -2,4 +2,26 @@
 GET /company/c02f14a48afb408aaccd1afabde772bf HTTP/1.1
 Host: {{host}}
 
+### 北华大学
+GET /company/base/3d598fec5f6042048e8363cc90075986 HTTP/1.1
+Host: {{host}}
+
+### 北华大学
+GET /company/statistics/3d598fec5f6042048e8363cc90075986 HTTP/1.1
+Host: {{host}}
+
+###
+GET /company/mixed/3d598fec5f6042048e8363cc90075986 HTTP/1.1
+Host: {{host}}
+
+###
+GET /company/mappings HTTP/1.1
+Host: {{host}}
+
+###
+
+### 中国石油化工股份有限公司石油化工科学研究院
+GET /company/statistics/56 HTTP/1.1
+Host: {{host}}
+
 ###
