@@ -63,7 +63,7 @@ public class CompanyStatistics {
     private Integer workSpaceCreatedNum;
 
     @Column(name = "renew")
-    private Integer renew;
+    private String renew;
 
     @Column(name = "login_num")
     private Integer loginNum;

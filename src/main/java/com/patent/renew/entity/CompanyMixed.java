@@ -1,34 +1,43 @@
-/*
- * Copyright (C) 2019 PatSnap Pte Ltd, All Rights Reserved.
- */
-
 package com.patent.renew.entity;
 
 import lombok.Data;
 
-import java.io.Serializable;
+import org.springframework.data.annotation.Id;
+
+import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author toryzhou
- * @since 2019-07-11
+ * Company mixed data model.
+ *
+ * @author: Gang Zhang
+ * @date: 2019/7/16
  */
 @Data
 @Entity
-@Table(schema = "public", name = "company_model")
-public class Company implements Serializable {
+@Table(name = "company_mixed_model")
+public class CompanyMixed {
 
     @Id
     @Column(name = "id")
     private String id;
 
+    /**
+     * base data
+     */
+    @Column(name = "company_id", nullable = false)
+    private String companyId;
+
     @Column(name = "company_name", nullable = false)
     private String companyName;
 
+    /**
+     * config data
+     */
     @Column(name = "account_num")
     private Integer accountNum;
 
@@ -89,7 +98,45 @@ public class Company implements Serializable {
     @Column(name = "insights")
     private Integer insights;
 
+    /**
+     * statistics data
+     */
+    @Column(name = "search_num")
+    private Integer searchNum;
+
+    @Column(name = "export_num")
+    private Integer exportNum;
+
+    @Column(name = "export_pdf_num")
+    private Integer exportPdfNum;
+
+    @Column(name = "export_xls_num")
+    private Integer exportXlsNum;
+
+    @Column(name = "analysis_num")
+    private Integer analysisNum;
+
+    @Column(name = "landscape_num")
+    private Integer landscapeNum;
+
+    @Column(name = "view_num")
+    private Integer viewNum;
+
+    @Column(name = "chemical_num")
+    private Integer chemicalNum;
+
+    @Column(name = "alert_created_num")
+    private Integer alertCreatedNum;
+
+    @Column(name = "workSpace_created_num")
+    private Integer workSpaceCreatedNum;
+
+    @Column(name = "begin_at")
+    private Date beginAt;
+
+    @Column(name = "end_at")
+    private Date endAt;
+
     @Column(name = "renew")
     private String renew;
-
 }

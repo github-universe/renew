@@ -4,10 +4,19 @@
 
 package com.patent.renew.weka;
 
-import com.patent.renew.dto.CompanyModel;
+import com.patent.renew.dto.CompanyMixedPojo;
+import com.patent.renew.dto.CompanyPojo;
+import com.patent.renew.dto.CompanyStatisticsPojo;
+import com.patent.renew.entity.CompanyMixedTraining;
+import com.patent.renew.entity.CompanyStatisticsTraining;
+import com.patent.renew.entity.CompanyTraining;
+import com.patent.renew.service.DataNormalizeService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -23,61 +32,102 @@ import weka.core.Instances;
 import weka.core.SerializationHelper;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author toryzhou
  * @since 2019-07-12
  */
 @Component
-public class WekaClient {
+public class WekaClient implements InitializingBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WekaClient.class);
+    public static final String RENEW_FIELD = "renew";
+
+    @Autowired
+    private DataNormalizeService normalizeService;
+
+    private Classifier companyBaseClassifier;
+
+    private Classifier companyStatisticsClassifier;
+
+    private Classifier companyMixedClassifier;
 
 
-    public double predict(CompanyModel companyModel) throws Exception {
-        String nameOfDataset = "renew";
-        ArrayList<Attribute> attributes = new ArrayList<>(2);
-        attributes.add(new Attribute("accountNumber"));
-        attributes.add(new Attribute("ipLogin"));
-        Instances instances = new Instances(nameOfDataset, attributes, 100);
+    public double predictByCompanyBase(CompanyPojo companyPojo) throws Exception {
 
-        Instance instance = makeInstance(instances, companyModel);
-        instances.add(instance);
-        AttributeSelection as = new AttributeSelection();
-        ASSearch asSearch = ASSearch.forName("weka.attributeSelection.BestFirst", new String[]{"-D", "2", "-N", "3"});
-        as.setSearch(asSearch);
-        ASEvaluation asEval = ASEvaluation.forName("weka.attributeSelection.CfsSubsetEval", new String[]{});
-        as.setEvaluator(asEval);
-        as.SelectAttributes(instances);
-        instances = as.reduceDimensionality(instances);
-        Classifier classifier = AbstractClassifier.forName("weka.classifiers.meta.RandomCommittee", new String[]{"-I", "8", "-S", "1", "-W", "weka.classifiers.trees.RandomForest", "--", "-I", "7", "-K", "0", "-depth", "0"});
-        classifier.buildClassifier(instances);
-        double value = classifier.classifyInstance(instances.instance(0));
-
-        // todo 怎么通过模型得出预测值
+        String nameOfDataSet = "base_test_set";
+        Class<?> cls = Class.forName("com.patent.renew.entity.CompanyTraining");
+        Instances baseInstances = makeInstances(nameOfDataSet, cls);
+        Instance toPredictInstance = makeBaseInstance(baseInstances, companyPojo);
+        double value = companyBaseClassifier.classifyInstance(toPredictInstance);
+        LOGGER.info("Predict base info : {} , value is {}.", companyPojo, value);
         return value;
 
     }
 
-    private Instance makeInstance(Instances instances, CompanyModel companyModel) {
+    public double predictByCompanyStatistics(CompanyStatisticsPojo statisticsPojo) throws Exception {
+        String nameOfDataSet = "statistics_test_set";
+        Class<?> cls = Class.forName("com.patent.renew.entity.CompanyStatisticsTraining");
+        Instances statisticsInstances = makeInstances(nameOfDataSet, cls);
 
-        // Create instance of length two.
-        Instance instance = new DenseInstance(2);
+        Instance toPredictInstance = makeStatisticsInstance(statisticsInstances, statisticsPojo);
+        double value = companyStatisticsClassifier.classifyInstance(toPredictInstance);
+        LOGGER.info("Predict statistics  info : {} , value is {}.", statisticsPojo, value);
+        return value;
+    }
 
-        // Set value for message attribute
-        Attribute attributeA = instances.attribute("accountNumber");
-        attributeA.setWeight(1);
-        instance.setValue(attributeA, companyModel.getAccountNumber());
 
-        Attribute attributeB = instances.attribute("ipLogin");
-        attributeB.setWeight(1);
-        instance.setValue(attributeB, companyModel.getIpLogin());
+    public double predictByMixedStatistics(CompanyMixedPojo mixedPojo) throws Exception {
+        String nameOfDataSet = "mixed_test_set";
+        Class<?> cls = Class.forName("com.patent.renew.entity.CompanyMixedTraining");
+        Instances mixedInstances = makeInstances(nameOfDataSet, cls);
+
+        Instance toPredictInstance = makeMixedInstance(mixedInstances, mixedPojo);
+        double value = companyMixedClassifier.classifyInstance(toPredictInstance);
+        LOGGER.info("Predict mixed info : {} , value is {}.", mixedPojo, value);
+        return value;
+    }
+
+    private Instances makeInstances(final String nameOfDataset, Class clazz) throws ClassNotFoundException {
+
+        Field[] fields = clazz.getDeclaredFields();
+        ArrayList<Attribute> attributes = new ArrayList<>(fields.length);
+        Arrays.asList(fields).parallelStream().forEach(field -> {
+            // Set value for message attribute
+            String fieldName = field.getName();
+            attributes.add(new Attribute(fieldName));
+        });
+
+        return new Instances(nameOfDataset, attributes, 100);
+    }
+
+    private Instance makeBaseInstance(Instances instances, CompanyPojo companyPojo) {
+        CompanyTraining companyTraining = normalizeService.normalizeCompanyData(companyPojo);
+        Field[] fields = companyTraining.getClass().getDeclaredFields();
+        // Create instance of length fields.
+        Instance instance = new DenseInstance(fields.length);
+
+        Arrays.asList(fields).parallelStream().forEach(field -> {
+            // Set value for message attribute
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            Attribute attribute = instances.attribute(fieldName);
+
+            try {
+                if (StringUtils.equals("renew", fieldName)) {
+                    instance.setValue(attribute, (String) field.get(companyTraining));
+                } else {
+                    instance.setValue(attribute, (Integer) field.get(companyTraining));
+                }
+
+            } catch (IllegalAccessException e) {
+                LOGGER.warn("Make base instance error with field: {}", fieldName);
+            }
+        });
 
         // Give instance access to attribute information from the dataset.
         instance.setDataset(instances);
@@ -85,6 +135,65 @@ public class WekaClient {
         return instance;
     }
 
+    private Instance makeStatisticsInstance(Instances instances, CompanyStatisticsPojo statisticsPojo) {
+        CompanyStatisticsTraining statisticsTraining = normalizeService.normalizeCompanyStatisticsData(statisticsPojo);
+        Field[] fields = statisticsTraining.getClass().getDeclaredFields();
+        // Create instance of length fields.
+        Instance instance = new DenseInstance(fields.length);
+
+        Arrays.asList(fields).parallelStream().forEach(field -> {
+            // Set value for message attribute
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            Attribute attribute = instances.attribute(fieldName);
+
+            try {
+                if (StringUtils.equals("renew", fieldName)) {
+                    instance.setValue(attribute, (String) field.get(statisticsTraining));
+                } else {
+                    instance.setValue(attribute, (Integer) field.get(statisticsTraining));
+                }
+
+            } catch (IllegalAccessException e) {
+                LOGGER.warn("Make statistics instance error with field: {}", fieldName);
+            }
+        });
+
+        // Give instance access to attribute information from the dataset.
+        instance.setDataset(instances);
+
+        return instance;
+    }
+
+    private Instance makeMixedInstance(Instances instances, CompanyMixedPojo mixedPojo) {
+        CompanyMixedTraining mixedTraining = normalizeService.normalizeCompanyMixedData(mixedPojo);
+        Field[] fields = mixedTraining.getClass().getDeclaredFields();
+        // Create instance of length fields.
+        Instance instance = new DenseInstance(fields.length);
+
+        Arrays.asList(fields).parallelStream().forEach(field -> {
+            // Set value for message attribute
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            Attribute attribute = instances.attribute(fieldName);
+
+            try {
+                if (StringUtils.equals(RENEW_FIELD, fieldName)) {
+                    instance.setValue(attribute, (String) field.get(mixedTraining));
+                } else {
+                    instance.setValue(attribute, (Integer) field.get(mixedTraining));
+                }
+
+            } catch (IllegalAccessException e) {
+                LOGGER.warn("Make mixed instance error with field: {}", fieldName);
+            }
+        });
+
+        // Give instance access to attribute information from the dataset.
+        instance.setDataset(instances);
+
+        return instance;
+    }
 
     public void calc() throws Exception {
         LOGGER.info("Begin calculate the prediction");
@@ -118,4 +227,18 @@ public class WekaClient {
         System.out.println("J48 classification precision:" + (right / sum));
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // Load base Model
+        ClassPathResource companyBaseModel = new ClassPathResource("model/company_base_JRIP.model");
+        companyBaseClassifier = (Classifier) SerializationHelper.read(companyBaseModel.getInputStream());
+
+        // Load statistics Model
+        ClassPathResource companyStatisticsModel = new ClassPathResource("model/company_statistics.model");
+        companyStatisticsClassifier = (Classifier) SerializationHelper.read(companyStatisticsModel.getInputStream());
+
+        // Load mixed Model
+        ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed.model");
+        companyMixedClassifier = (Classifier) SerializationHelper.read(companyMixedModel.getInputStream());
+    }
 }

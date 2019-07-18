@@ -4,7 +4,7 @@
 
 package com.patent;
 
-import com.patent.renew.dto.CompanyModel;
+import com.patent.renew.dto.CompanyPojo;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.lang3.StringUtils;
@@ -180,8 +180,8 @@ public class RenewTest {
 
     @Test
     public void testBeanMap() {
-        CompanyModel companyModel = new CompanyModel();
-        BeanMap beanMap = new BeanMap(companyModel);
+        CompanyPojo companyPojo = new CompanyPojo();
+        BeanMap beanMap = new BeanMap(companyPojo);
         Set<Object> keySet = beanMap.keySet();
         String nameOfDataset = "renew";
         ArrayList<Attribute> attributes = new ArrayList<>(keySet.size() - 1);

@@ -17,9 +17,9 @@ import java.util.List;
  */
 public interface CompanyStatisticsRepository extends BaseRespository<CompanyStatistics, String> {
 
-    CompanyStatistics findByCompanyId(String companyId);
+    List<CompanyStatistics> findByCompanyId(String companyId);
 
-    List<CompanyStatistics> findByRenew(Integer renew);
+    List<CompanyStatistics> findByRenew(String renew);
 
 
     @Query(value = "select \n" +

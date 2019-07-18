@@ -4,7 +4,10 @@
 
 package com.patent.renew.controller;
 
-import com.patent.renew.dto.CompanyModel;
+import com.patent.renew.dto.CompanyMixedPojo;
+import com.patent.renew.dto.CompanyPojo;
+import com.patent.renew.dto.CompanyStatisticsPojo;
+import com.patent.renew.entity.CompanyStatistics;
 import com.patent.renew.weka.WekaClient;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +28,24 @@ public class WekaController {
     @Autowired
     private WekaClient wekaClient;
 
-    @PostMapping("/prediction")
-    public ResponseEntity<?> predict(@RequestBody CompanyModel companyModel) throws Exception {
-        double predictiveValue = wekaClient.predict(companyModel);
+    @PostMapping("/base/prediction")
+    public ResponseEntity<?> predictByBase(@RequestBody CompanyPojo companyPojo) throws Exception {
+        double predictiveValue = wekaClient.predictByCompanyBase(companyPojo);
         return ResponseEntity.ok().body(predictiveValue);
     }
+
+    @PostMapping("/statistics/prediction")
+    public ResponseEntity<?> predictByStatistics(@RequestBody CompanyStatisticsPojo statisticsPojo) throws Exception {
+        double predictiveValue = wekaClient.predictByCompanyStatistics(statisticsPojo);
+        return ResponseEntity.ok().body(predictiveValue);
+    }
+
+    @PostMapping("/mixed/prediction")
+    public ResponseEntity<?> predictByMixedData(@RequestBody CompanyMixedPojo mixedPojo) throws Exception {
+        double predictiveValue = wekaClient.predictByMixedStatistics(mixedPojo);
+        return ResponseEntity.ok().body(predictiveValue);
+    }
+
+
 
 }

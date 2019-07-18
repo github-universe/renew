@@ -19,33 +19,20 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(schema = "public", name = "company_model")
-public class Company implements Serializable {
-
-    @Id
-    @Column(name = "id")
-    private String id;
-
-    @Column(name = "company_name", nullable = false)
-    private String companyName;
+@Table(name = "company_training_model")
+public class CompanyTraining implements Serializable {
 
     @Column(name = "account_num")
     private Integer accountNum;
 
     @Column(name = "ip_login")
-    private Integer ipLogin;
-
-    @Column(name = "timezone_id")
-    private String timeZoneId;
+    private boolean ipLogin;
 
     @Column(name = "account_limited")
     private Integer accountLimited;
 
     @Column(name = "seats")
     private Integer seats;
-
-    @Column(name = "loginnum")
-    private Integer loginNum;
 
     @Column(name = "rule_independent_num")
     private Integer ruleIndependentNum;

@@ -8,5 +8,5 @@ public interface CompanyRepository extends BaseRespository<Company, String> {
 
     Company findByCompanyName(String name);
 
-    List<Company> findByRenew(Integer renew);
+    List<Company> findByRenew(String renew);
 }

@@ -22,12 +22,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CompanyServiceTest {
 
     @Autowired
-    private CompanyService companyService;
+    private CompanyBaseService companyBaseService;
 
     @Test
     public void test() {
 
-        Company company = companyService.findById("fe1bb88fe69a42f1a5e3c39b5ee62f72");
+        Company company = companyBaseService.findById("fe1bb88fe69a42f1a5e3c39b5ee62f72");
         Assert.assertEquals("上海", company.getCompanyName().substring(0, 2));
 
     }
