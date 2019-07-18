@@ -44,9 +44,6 @@ public class Company implements Serializable {
     @Column(name = "seats")
     private Integer seats;
 
-    @Column(name = "loginnum")
-    private Integer loginNum;
-
     @Column(name = "rule_independent_num")
     private Integer ruleIndependentNum;
 

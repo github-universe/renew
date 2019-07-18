@@ -48,7 +48,7 @@ public class CompanyMixed {
     @Column(name = "seats")
     private Integer seats;
 
-    @Column(name = "loginnum")
+    @Column(name = "login_num")
     private Integer loginNum;
 
     @Column(name = "rule_independent_num")
@@ -123,7 +123,7 @@ public class CompanyMixed {
     @Column(name = "alert_created_num")
     private Integer alertCreatedNum;
 
-    @Column(name = "workSpace_created_num")
+    @Column(name = "workspace_created_num")
     private Integer workSpaceCreatedNum;
 
     @Column(name = "begin_at")

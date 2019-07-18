@@ -22,7 +22,6 @@ import javax.persistence.Table;
 @Table(schema = "public", name = "company_training_model")
 public class CompanyTraining implements Serializable {
 
-
     @Id
     @Column(name = "id")
     private String id;
@@ -31,10 +30,10 @@ public class CompanyTraining implements Serializable {
     private Integer accountNum;
 
     @Column(name = "ip_login")
-    private boolean ipLogin;
+    private Integer ipLogin;
 
-    @Column(name = "account_limited")
-    private Integer accountLimited;
+    //@Column(name = "account_limited")
+    //private Integer accountLimited;
 
     @Column(name = "seats")
     private Integer seats;

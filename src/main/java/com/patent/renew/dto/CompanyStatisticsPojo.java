@@ -20,6 +20,9 @@ public class CompanyStatisticsPojo {
     private String companyName;
 
     @InstanceField
+    private Integer loginNum;
+
+    @InstanceField
     private Integer searchNum;
 
     @InstanceField

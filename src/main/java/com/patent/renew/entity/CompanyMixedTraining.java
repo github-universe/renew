@@ -31,17 +31,11 @@ public class CompanyMixedTraining {
     @Column(name = "ip_login")
     private Integer ipLogin;
 
-    @Column(name = "timezone_id")
-    private String timeZoneId;
-
-    @Column(name = "account_limited")
-    private Integer accountLimited;
+    //@Column(name = "account_limited")
+    //private Integer accountLimited;
 
     @Column(name = "seats")
     private Integer seats;
-
-    @Column(name = "loginnum")
-    private Integer loginNum;
 
     @Column(name = "rule_independent_num")
     private Integer ruleIndependentNum;
@@ -88,17 +82,20 @@ public class CompanyMixedTraining {
     /**
      * statistics data
      */
+    @Column(name = "login_num")
+    private Integer loginNum;
+
     @Column(name = "search_num")
     private Integer searchNum;
 
     @Column(name = "export_num")
     private Integer exportNum;
 
-    @Column(name = "export_pdf_num")
-    private Integer exportPdfNum;
+    //@Column(name = "export_pdf_num")
+    //private Integer exportPdfNum;
 
-    @Column(name = "export_xls_num")
-    private Integer exportXlsNum;
+    //@Column(name = "export_xls_num")
+    //private Integer exportXlsNum;
 
     @Column(name = "analysis_num")
     private Integer analysisNum;
@@ -115,7 +112,7 @@ public class CompanyMixedTraining {
     @Column(name = "alert_created_num")
     private Integer alertCreatedNum;
 
-    @Column(name = "workSpace_created_num")
+    @Column(name = "workspace_created_num")
     private Integer workSpaceCreatedNum;
 
     @Column(name = "renew")

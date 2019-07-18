@@ -34,9 +34,6 @@ public class CompanyPojo {
     private Integer seats;
 
     @InstanceField
-    private Integer loginNum;
-
-    @InstanceField
     private Integer ruleIndependentNum;
 
     @InstanceField

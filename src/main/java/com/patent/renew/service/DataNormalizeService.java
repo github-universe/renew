@@ -108,18 +108,19 @@ public class DataNormalizeService {
         Date beginAt = companyStatistics.getBeginAt();
         long delta = endAt.getTime() - beginAt.getTime();
         long yearMills = DateUtils.MILLIS_PER_DAY * 365;
-        double factor = (double) delta / yearMills;
-        CompanyStatisticsTraining normalizeData = new CompanyStatisticsTraining();
+        double factor = (double) yearMills / delta;
+        CompanyStatisticsTraining normalizeData = beanMapper.map(companyStatistics, CompanyStatisticsTraining.class);
         normalizeData.setSearchNum((int) Math.ceil(companyStatistics.getSearchNum() * factor));
         normalizeData.setExportNum((int) Math.ceil(companyStatistics.getExportNum() * factor));
-        normalizeData.setExportPdfNum((int) Math.ceil(companyStatistics.getExportPdfNum() * factor));
-        normalizeData.setExportXlsNum((int) Math.ceil(companyStatistics.getExportXlsNum() * factor));
+        //normalizeData.setExportPdfNum((int) Math.ceil(companyStatistics.getExportPdfNum() * factor));
+        //normalizeData.setExportXlsNum((int) Math.ceil(companyStatistics.getExportXlsNum() * factor));
         normalizeData.setAnalysisNum((int) Math.ceil(companyStatistics.getAnalysisNum() * factor));
         normalizeData.setLandscapeNum((int) Math.ceil(companyStatistics.getLandscapeNum() * factor));
         normalizeData.setViewNum((int) Math.ceil(companyStatistics.getViewNum() * factor));
         normalizeData.setChemicalNum((int) Math.ceil(companyStatistics.getChemicalNum() * factor));
         normalizeData.setAlertCreatedNum((int) Math.ceil(companyStatistics.getAlertCreatedNum() * factor));
         normalizeData.setWorkSpaceCreatedNum((int) Math.ceil(companyStatistics.getWorkSpaceCreatedNum() * factor));
+        normalizeData.setLoginNum((int) Math.ceil(companyStatistics.getLoginNum() * factor));
         return normalizeData;
     }
 
@@ -133,14 +134,15 @@ public class DataNormalizeService {
         CompanyMixedTraining normalizeData = beanMapper.map(companyMixed, CompanyMixedTraining.class);
         normalizeData.setSearchNum((int) Math.ceil(companyMixed.getSearchNum() * factor));
         normalizeData.setExportNum((int) Math.ceil(companyMixed.getExportNum() * factor));
-        normalizeData.setExportPdfNum((int) Math.ceil(companyMixed.getExportPdfNum() * factor));
-        normalizeData.setExportXlsNum((int) Math.ceil(companyMixed.getExportXlsNum() * factor));
+        //normalizeData.setExportPdfNum((int) Math.ceil(companyMixed.getExportPdfNum() * factor));
+        //normalizeData.setExportXlsNum((int) Math.ceil(companyMixed.getExportXlsNum() * factor));
         normalizeData.setAnalysisNum((int) Math.ceil(companyMixed.getAnalysisNum() * factor));
         normalizeData.setLandscapeNum((int) Math.ceil(companyMixed.getLandscapeNum() * factor));
         normalizeData.setViewNum((int) Math.ceil(companyMixed.getViewNum() * factor));
         normalizeData.setChemicalNum((int) Math.ceil(companyMixed.getChemicalNum() * factor));
         normalizeData.setAlertCreatedNum((int) Math.ceil(companyMixed.getAlertCreatedNum() * factor));
         normalizeData.setWorkSpaceCreatedNum((int) Math.ceil(companyMixed.getWorkSpaceCreatedNum() * factor));
+        normalizeData.setLoginNum((int) Math.ceil(companyMixed.getLoginNum() * factor));
         return normalizeData;
     }
 }

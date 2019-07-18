@@ -121,7 +121,7 @@ public class WekaClient implements InitializingBean {
             try {
                 if (!StringUtils.equals(IGNORED_ID, fieldName)) {
                     if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                        instance.setValue(attribute, (String) field.get(companyTraining));
+                        instance.setValue(attribute, Double.valueOf((String) field.get(companyTraining)));
                     } else {
                         instance.setValue(attribute, (Integer) field.get(companyTraining));
                     }
@@ -152,7 +152,7 @@ public class WekaClient implements InitializingBean {
             try {
                 if (!StringUtils.equals(IGNORED_ID, fieldName)) {
                     if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                        instance.setValue(attribute, (String) field.get(statisticsTraining));
+                        instance.setValue(attribute, Integer.valueOf((String) field.get(statisticsTraining)));
                     } else {
                         instance.setValue(attribute, (Integer) field.get(statisticsTraining));
                     }
@@ -184,7 +184,7 @@ public class WekaClient implements InitializingBean {
             try {
                 if (!StringUtils.equals(IGNORED_ID, fieldName)) {
                     if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                        instance.setValue(attribute, (String) field.get(mixedTraining));
+                        instance.setValue(attribute, Integer.valueOf((String) field.get(mixedTraining)));
                     } else {
                         instance.setValue(attribute, (Integer) field.get(mixedTraining));
                     }

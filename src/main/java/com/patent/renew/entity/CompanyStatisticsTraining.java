@@ -18,40 +18,42 @@ import javax.persistence.Table;
 @Table(schema = "public", name = "company_statistics_training_model")
 public class CompanyStatisticsTraining {
 
-
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "searchnum")
+    @Column(name = "search_num")
     private Integer searchNum;
 
-    @Column(name = "exportnum")
+    @Column(name = "export_num")
     private Integer exportNum;
 
-    @Column(name = "exportpdfnum")
-    private Integer exportPdfNum;
+    //@Column(name = "export_pdf_num")
+    //private Integer exportPdfNum;
 
-    @Column(name = "exportxlsnum")
-    private Integer exportXlsNum;
+    //@Column(name = "export_xls_num")
+    //private Integer exportXlsNum;
 
-    @Column(name = "analysisnum")
+    @Column(name = "analysis_num")
     private Integer analysisNum;
 
-    @Column(name = "landscapenum")
+    @Column(name = "landscape_num")
     private Integer landscapeNum;
 
-    @Column(name = "viewnum")
+    @Column(name = "view_num")
     private Integer viewNum;
 
-    @Column(name = "chemicalnum")
+    @Column(name = "chemical_num")
     private Integer chemicalNum;
 
-    @Column(name = "alertcreatednum")
+    @Column(name = "alert_created_num")
     private Integer alertCreatedNum;
 
-    @Column(name = "workspacecreatednum")
+    @Column(name = "workspace_created_num")
     private Integer workSpaceCreatedNum;
+
+    @Column(name = "login_num")
+    private Integer loginNum;
 
     @Column(name = "renew")
     private String renew;

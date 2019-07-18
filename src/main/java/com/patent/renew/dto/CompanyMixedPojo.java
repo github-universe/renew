@@ -30,7 +30,7 @@ public class CompanyMixedPojo {
 
     private String timeZoneId;
 
-    private Integer accountLimited;
+    //private Integer accountLimited;
 
     private Integer seats;
 
