@@ -120,7 +120,7 @@ public class DataNormalizeService {
         normalizeData.setViewNum((int) Math.ceil(companyStatistics.getViewNum() * factor));
         normalizeData.setChemicalNum((int) Math.ceil(companyStatistics.getChemicalNum() * factor));
         normalizeData.setAlertCreatedNum((int) Math.ceil(companyStatistics.getAlertCreatedNum() * factor));
-        normalizeData.setWorkSpaceCreatedNum((int) Math.ceil(companyStatistics.getWorkSpaceCreatedNum() * factor));
+        normalizeData.setWorkspaceCreatedNum((int) Math.ceil(companyStatistics.getWorkspaceCreatedNum() * factor));
         normalizeData.setLoginNum((int) Math.ceil(companyStatistics.getLoginNum() * factor));
         return normalizeData;
     }
@@ -133,7 +133,7 @@ public class DataNormalizeService {
         if (Objects.nonNull(endAt) && Objects.nonNull(beginAt)) {
             long delta = endAt.getTime() - beginAt.getTime();
             long yearMills = DateUtils.MILLIS_PER_DAY * 365;
-            factor = (double) delta / yearMills;
+            factor = (double) yearMills/ delta;
         }
 
 
@@ -147,7 +147,7 @@ public class DataNormalizeService {
         normalizeData.setViewNum((int) Math.ceil(companyMixed.getViewNum() * factor));
         normalizeData.setChemicalNum((int) Math.ceil(companyMixed.getChemicalNum() * factor));
         normalizeData.setAlertCreatedNum((int) Math.ceil(companyMixed.getAlertCreatedNum() * factor));
-        normalizeData.setWorkSpaceCreatedNum((int) Math.ceil(companyMixed.getWorkSpaceCreatedNum() * factor));
+        normalizeData.setWorkspaceCreatedNum((int) Math.ceil(companyMixed.getWorkspaceCreatedNum() * factor));
         normalizeData.setLoginNum((int) Math.ceil(companyMixed.getLoginNum() * factor));
         return normalizeData;
     }

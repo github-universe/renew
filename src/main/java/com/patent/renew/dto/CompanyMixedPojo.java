@@ -85,9 +85,9 @@ public class CompanyMixedPojo {
 
     private Integer alertCreatedNum;
 
-    private Integer workSpaceCreatedNum;
+    private Integer workspaceCreatedNum;
 
-    private String renew;
+    private Integer renew;
 
     private Date beginAt;
 

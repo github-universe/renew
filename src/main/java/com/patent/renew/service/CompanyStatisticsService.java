@@ -21,9 +21,9 @@ import java.util.List;
 @Service
 public class CompanyStatisticsService {
 
-    private static final String UN_RENEWED = "0";
-    private static final String RENEWED = "1";
-    private static final String TO_RENEWED = "2";
+    private static final Integer UN_RENEWED = 0;
+    private static final Integer RENEWED = 1;
+    private static final Integer TO_RENEWED = 2;
 
 
     @Autowired

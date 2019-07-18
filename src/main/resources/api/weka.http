@@ -67,7 +67,7 @@ Content-Type: application/json
     "viewNum":0,
     "chemicalNum":0,
     "alertCreatedNum":0,
-    "workSpaceCreatedNum":1,
+    "workspaceCreatedNum":1,
     "renew":0
 }
 ###

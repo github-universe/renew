@@ -15,6 +15,6 @@ public interface CompanyMixedRepository extends BaseRespository<CompanyMixed, St
 
     List<CompanyMixed> findByCompanyId(String companyId);
 
-    List<CompanyMixed> findByRenew(String renew);
+    List<CompanyMixed> findByRenew(Integer renew);
 
 }

@@ -50,11 +50,11 @@ public class CompanyStatisticsTraining {
     private Integer alertCreatedNum;
 
     @Column(name = "workspace_created_num")
-    private Integer workSpaceCreatedNum;
+    private Integer workspaceCreatedNum;
 
     @Column(name = "login_num")
     private Integer loginNum;
 
     @Column(name = "renew")
-    private String renew;
+    private Integer renew;
 }

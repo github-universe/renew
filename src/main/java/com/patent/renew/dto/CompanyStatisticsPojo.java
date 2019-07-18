@@ -50,10 +50,10 @@ public class CompanyStatisticsPojo {
     private Integer alertCreatedNum;
 
     @InstanceField
-    private Integer workSpaceCreatedNum;
+    private Integer workspaceCreatedNum;
 
     @InstanceField
-    private String renew;
+    private Integer renew;
 
     private Date beginAt;
 

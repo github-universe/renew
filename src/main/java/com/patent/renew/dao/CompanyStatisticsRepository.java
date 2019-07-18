@@ -19,7 +19,7 @@ public interface CompanyStatisticsRepository extends BaseRespository<CompanyStat
 
     List<CompanyStatistics> findByCompanyId(String companyId);
 
-    List<CompanyStatistics> findByRenew(String renew);
+    List<CompanyStatistics> findByRenew(Integer renew);
 
 
     @Query(value = "select \n" +

@@ -81,6 +81,6 @@ public class CompanyTraining implements Serializable {
     private Integer insights;
 
     @Column(name = "renew")
-    private String renew;
+    private Integer renew;
 
 }

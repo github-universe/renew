@@ -92,22 +92,25 @@ public class WekaClient implements InitializingBean {
         Class<?> cls = Class.forName("com.patent.renew.entity.CompanyMixedTraining");
         Instances mixedInstances = makeInstances(nameOfDataSet, cls);
         Instance toPredictInstance = makeMixedInstance(mixedInstances, mixedPojo);
-        mixedInstances.add(toPredictInstance);
-        double lRValue = companyMixedClassifier.classifyInstance(toPredictInstance);
+        double value = companyMixedClassifier.classifyInstance(toPredictInstance);
 
 
-        Instances mixedRfInstances = makeInstances(nameOfDataSet, cls);
-        Instance toRfPredictInstance = makeMixedInstance(mixedRfInstances, mixedPojo);
-        mixedRfInstances.add(toRfPredictInstance);
-        double rFValue = companyMixedRfClassifier.classifyInstance(toRfPredictInstance);
-        LOGGER.info("Predict mixed info : {} , LR value is {}, RF value is {}.", mixedPojo, lRValue, rFValue);
-        return lRValue;
+//        Instances mixedLrInstances = makeInstances(nameOfDataSet, cls);
+//        Instance toLrPredictInstance = makeMixedInstance(mixedLrInstances, mixedPojo);
+        double lRvalue = companyMixedLrClassifier.classifyInstance(toPredictInstance);
+
+//        Instances mixedRfInstances = makeInstances(nameOfDataSet, cls);
+//        Instance toRfPredictInstance = makeMixedInstance(mixedRfInstances, mixedPojo);
+//        mixedRfInstances.add(toRfPredictInstance);
+        double rFValue = companyMixedRfClassifier.classifyInstance(toPredictInstance);
+        LOGGER.info("Predict mixed info : {} ,value: {}, LR value is {}, RF value is {}.", mixedPojo, value, lRvalue, rFValue);
+        return value;
     }
 
     private Instances makeInstances(final String nameOfDataset, Class clazz) throws ClassNotFoundException {
         Field[] fields = clazz.getDeclaredFields();
-        ArrayList<Attribute> attributes = new ArrayList<>(fields.length);
-        Arrays.asList(fields).parallelStream().forEach(field -> {
+        ArrayList<Attribute> attributes = new ArrayList<>(fields.length -1);
+        Arrays.asList(fields).forEach(field -> {
             // Set value for message attribute
 //            String fieldName = field.getName();
 //            attributes.add(new Attribute(fieldName));
@@ -223,10 +226,10 @@ public class WekaClient implements InitializingBean {
             try {
                 if (!StringUtils.equals(IGNORED_ID, fieldName)) {
                     if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                        LOGGER.info("Make mixed instance with field: {}, value: {}", fieldName, Integer.valueOf((String) field.get(mixedTraining)));
+                        LOGGER.info("Make mixed instance with field: {}, value: {}", fieldName, field.get(mixedTraining));
                         Attribute attribute = instances.attribute(fieldName);
                         instances.setClass(attribute);
-                        instance.setValue(attribute, (String) field.get(mixedTraining));
+                        instance.setValue(attribute, (Integer) field.get(mixedTraining));
                     } else {
                         LOGGER.info("Make mixed instance with field: {}, value: {}", fieldName, field.get(mixedTraining));
                         Attribute attribute = instances.attribute(fieldName);
@@ -292,7 +295,7 @@ public class WekaClient implements InitializingBean {
         ClassPathResource companyLrMixedModel = new ClassPathResource("model/company_mixed_LR.model");
         companyMixedLrClassifier = (Classifier) SerializationHelper.read(companyLrMixedModel.getInputStream());
 
-        ClassPathResource companyMixedRfModel = new ClassPathResource("model/company_mixed_RF.model");
+        ClassPathResource companyMixedRfModel = new ClassPathResource("model/company_mixed_RF2.model");
         companyMixedRfClassifier = (Classifier) SerializationHelper.read(companyMixedRfModel.getInputStream());
 //        ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed.model");
         ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed_training.model");

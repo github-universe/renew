@@ -124,7 +124,7 @@ public class CompanyMixed {
     private Integer alertCreatedNum;
 
     @Column(name = "workspace_created_num")
-    private Integer workSpaceCreatedNum;
+    private Integer workspaceCreatedNum;
 
     @Column(name = "begin_at")
     private Date beginAt;
@@ -133,5 +133,5 @@ public class CompanyMixed {
     private Date endAt;
 
     @Column(name = "renew")
-    private String renew;
+    private Integer renew;
 }

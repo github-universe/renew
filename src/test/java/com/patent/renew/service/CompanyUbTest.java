@@ -27,6 +27,10 @@ import java.util.UUID;
 @SpringBootTest
 public class CompanyUbTest {
 
+    private static final Integer UN_RENEWED = 0;
+    private static final Integer RENEWED = 1;
+    private static final Integer TO_RENEWED = 2;
+
     @Autowired
     private CompanyStatisticsRepository companyStatisticsRepository;
 
@@ -69,7 +73,7 @@ public class CompanyUbTest {
                     List<CompanyStatistics> statistics = companyStatisticsRepository.selectCompanyStatistics(companyId, beginAtStr, endAtStr, companyName);
                     if (CollectionUtils.isNotEmpty(statistics)) {
                         CompanyStatistics statistic = statistics.get(0);
-                        statistic.setRenew("2");
+                        statistic.setRenew(TO_RENEWED);
                         statistic.setId(UUID.randomUUID().toString().replace("-", ""));
                         companyStatisticsRepository.save(statistic);
                         System.out.println("tagCount : " + ++tagCount);
@@ -80,7 +84,7 @@ public class CompanyUbTest {
                     List<CompanyStatistics> statistics1 = companyStatisticsRepository.selectCompanyStatistics(companyId, beginAtStr1, endAtStr1, companyName);
                     if (CollectionUtils.isNotEmpty(statistics1)) {
                         CompanyStatistics statistic1 = statistics1.get(0);
-                        statistic1.setRenew("1");
+                        statistic1.setRenew(RENEWED);
                         statistic1.setId(UUID.randomUUID().toString().replace("-", ""));
                         companyStatisticsRepository.save(statistic1);
 
@@ -94,7 +98,7 @@ public class CompanyUbTest {
                     List<CompanyStatistics> statistics2 = companyStatisticsRepository.selectCompanyStatistics(companyId, beginAtStr, endAtStr, companyName);
                     if (CollectionUtils.isNotEmpty(statistics2)) {
                         CompanyStatistics statistic2 = statistics2.get(0);
-                        statistic2.setRenew("0");
+                        statistic2.setRenew(UN_RENEWED);
                         statistic2.setId(UUID.randomUUID().toString().replace("-", ""));
                         companyStatisticsRepository.save(statistic2);
                         System.out.println("tagCount : " + ++tagCount);
@@ -105,7 +109,7 @@ public class CompanyUbTest {
                     List<CompanyStatistics> statistics3 = companyStatisticsRepository.selectCompanyStatistics(companyId, beginAtStr1, endAtStr1, companyName);
                     if (CollectionUtils.isNotEmpty(statistics3)) {
                         CompanyStatistics statistic3 = statistics3.get(0);
-                        statistic3.setRenew("1");
+                        statistic3.setRenew(RENEWED);
                         statistic3.setId(UUID.randomUUID().toString().replace("-", ""));
                         companyStatisticsRepository.save(statistic3);
                         System.out.println("tagCount : " + ++tagCount);
@@ -119,7 +123,7 @@ public class CompanyUbTest {
                     List<CompanyStatistics> statistics = companyStatisticsRepository.selectCompanyStatistics(companyId, beginAtStr, endAtStr, companyName);
                     if (CollectionUtils.isNotEmpty(statistics)) {
                         CompanyStatistics statistic = statistics.get(0);
-                        statistic.setRenew("2");
+                        statistic.setRenew(TO_RENEWED);
                         statistic.setId(UUID.randomUUID().toString().replace("-", ""));
                         companyStatisticsRepository.save(statistic);
                         System.out.println("tagCount : " + ++tagCount);
