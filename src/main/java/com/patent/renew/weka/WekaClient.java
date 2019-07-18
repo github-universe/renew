@@ -97,19 +97,19 @@ public class WekaClient implements InitializingBean {
 
 //        Instances mixedLrInstances = makeInstances(nameOfDataSet, cls);
 //        Instance toLrPredictInstance = makeMixedInstance(mixedLrInstances, mixedPojo);
-        double lRvalue = companyMixedLrClassifier.classifyInstance(toPredictInstance);
+        double lRvalue = 1 - companyMixedLrClassifier.classifyInstance(toPredictInstance);
 
 //        Instances mixedRfInstances = makeInstances(nameOfDataSet, cls);
 //        Instance toRfPredictInstance = makeMixedInstance(mixedRfInstances, mixedPojo);
 //        mixedRfInstances.add(toRfPredictInstance);
         double rFValue = companyMixedRfClassifier.classifyInstance(toPredictInstance);
         LOGGER.info("Predict mixed info : {} ,value: {}, LR value is {}, RF value is {}.", mixedPojo, value, lRvalue, rFValue);
-        return value;
+        return lRvalue;
     }
 
     private Instances makeInstances(final String nameOfDataset, Class clazz) throws ClassNotFoundException {
         Field[] fields = clazz.getDeclaredFields();
-        ArrayList<Attribute> attributes = new ArrayList<>(fields.length -1);
+        ArrayList<Attribute> attributes = new ArrayList<>(fields.length - 1);
         Arrays.asList(fields).forEach(field -> {
             // Set value for message attribute
 //            String fieldName = field.getName();
