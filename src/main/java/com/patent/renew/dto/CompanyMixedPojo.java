@@ -3,6 +3,7 @@ package com.patent.renew.dto;
 import lombok.Data;
 
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Company mixed data model.
@@ -86,9 +87,9 @@ public class CompanyMixedPojo {
 
     private Integer workSpaceCreatedNum;
 
-    private Integer renew;
+    private String renew;
 
-    private Time beginAt;
+    private Date beginAt;
 
-    private Time endAt;
+    private Date endAt;
 }

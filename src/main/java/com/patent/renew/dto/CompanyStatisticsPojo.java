@@ -4,7 +4,7 @@ import com.patent.renew.annotation.InstanceField;
 
 import lombok.Data;
 
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Company statistics data model.
@@ -50,9 +50,9 @@ public class CompanyStatisticsPojo {
     private Integer workSpaceCreatedNum;
 
     @InstanceField
-    private Integer renew;
+    private String renew;
 
-    private Time beginAt;
+    private Date beginAt;
 
-    private Time endAt;
+    private Date endAt;
 }

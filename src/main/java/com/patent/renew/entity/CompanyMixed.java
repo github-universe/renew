@@ -45,9 +45,6 @@ public class CompanyMixed {
     @Column(name = "timezone_id")
     private String timeZoneId;
 
-    @Column(name = "account_limited")
-    private Integer accountLimited;
-
     @Column(name = "seats")
     private Integer seats;
 

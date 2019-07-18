@@ -5,8 +5,6 @@ import com.patent.renew.dao.CompanyMixedRepository;
 import com.patent.renew.dao.CompanyMixedTrainingRepository;
 import com.patent.renew.entity.CompanyMixed;
 import com.patent.renew.entity.CompanyMixedTraining;
-import com.patent.renew.entity.CompanyStatistics;
-import com.patent.renew.entity.CompanyStatisticsTraining;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +38,7 @@ public class CompanyMixedService {
      * @param id the id
      * @return the list
      */
-    public  List<CompanyMixed> findByCompanyId(String id) {
+    public List<CompanyMixed> findByCompanyId(String id) {
         return mixedRepository.findByCompanyId(id);
     }
 

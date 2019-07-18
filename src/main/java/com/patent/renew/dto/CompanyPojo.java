@@ -79,5 +79,5 @@ public class CompanyPojo {
     private Integer insights;
 
     @InstanceField
-    private Integer renew;
+    private String renew;
 }

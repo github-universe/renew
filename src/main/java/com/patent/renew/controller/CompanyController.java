@@ -2,9 +2,13 @@
 package com.patent.renew.controller;
 
 import com.patent.renew.dto.CompanyMappings;
+import com.patent.renew.dto.CompanyMixedPojo;
 import com.patent.renew.dto.CompanyPojo;
+import com.patent.renew.dto.CompanyStatisticsPojo;
 import com.patent.renew.entity.Company;
 import com.patent.renew.service.CompanyBaseService;
+import com.patent.renew.service.CompanyMixedService;
+import com.patent.renew.service.CompanyStatisticsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +30,12 @@ public class CompanyController extends BaseController {
     @Autowired
     private CompanyBaseService companyService;
 
+    @Autowired
+    private CompanyStatisticsService statisticsService;
+
+    @Autowired
+    private CompanyMixedService mixedService;
+
     @PostMapping
     public void save(@RequestBody @Valid CompanyPojo company) {
         companyService.save(company);
@@ -37,8 +47,13 @@ public class CompanyController extends BaseController {
     }
 
     @GetMapping("/statistics/{id}")
-    public ResponseEntity<CompanyPojo> findStatisticsById(@PathVariable String id) {
-        return ResponseEntity.ok().body(beanMapper.map(companyService.findById(id), CompanyPojo.class));
+    public ResponseEntity<List<CompanyStatisticsPojo>> findStatisticsById(@PathVariable String id) {
+        return ResponseEntity.ok().body(beanMapper.mapAsList(statisticsService.findByCompanyId(id), CompanyStatisticsPojo.class));
+    }
+
+    @GetMapping("/mixed/{id}")
+    public ResponseEntity<List<CompanyMixedPojo>> findMixedById(@PathVariable String id) {
+        return ResponseEntity.ok().body(beanMapper.mapAsList(mixedService.findByCompanyId(id), CompanyMixedPojo.class));
     }
 
     @GetMapping("/mappings")
