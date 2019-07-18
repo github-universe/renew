@@ -55,7 +55,10 @@ public class WekaClient implements InitializingBean {
 
     private Classifier companyStatisticsClassifier;
 
+    private Classifier companyMixedClassifier;
+
     private Classifier companyMixedLrClassifier;
+
     private Classifier companyMixedRfClassifier;
 
 
@@ -87,10 +90,10 @@ public class WekaClient implements InitializingBean {
     public double predictByMixedStatistics(CompanyMixedPojo mixedPojo) throws Exception {
         String nameOfDataSet = "mixed_test_set";
         Class<?> cls = Class.forName("com.patent.renew.entity.CompanyMixedTraining");
-        Instances mixedInstances = makeInstances(nameOfDataSet, cls, true);
+        Instances mixedInstances = makeInstances(nameOfDataSet, cls);
         Instance toPredictInstance = makeMixedInstance(mixedInstances, mixedPojo);
         mixedInstances.add(toPredictInstance);
-        double lRValue = companyMixedLrClassifier.classifyInstance(toPredictInstance);
+        double lRValue = companyMixedClassifier.classifyInstance(toPredictInstance);
 
 
         Instances mixedRfInstances = makeInstances(nameOfDataSet, cls);
@@ -101,29 +104,46 @@ public class WekaClient implements InitializingBean {
         return lRValue;
     }
 
-    private Instances makeInstances(final String nameOfDataset, Class clazz, boolean isClassString) throws ClassNotFoundException {
-
+    private Instances makeInstances(final String nameOfDataset, Class clazz) throws ClassNotFoundException {
         Field[] fields = clazz.getDeclaredFields();
         ArrayList<Attribute> attributes = new ArrayList<>(fields.length);
-        Arrays.asList(fields).stream().forEach(field -> {
+        Arrays.asList(fields).parallelStream().forEach(field -> {
             // Set value for message attribute
-            String fieldName = field.getName();
-            if (!StringUtils.equals(IGNORED_ID, fieldName)) {
-
-                if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                    attributes.add(new Attribute(fieldName, isClassString));
-                } else {
-                    attributes.add(new Attribute(fieldName));
-                }
+//            String fieldName = field.getName();
+//            attributes.add(new Attribute(fieldName));
+            if (!StringUtils.equals(IGNORED_ID, field.getName())) {
+                String fieldName = field.getName();
+                attributes.add(new Attribute(fieldName));
             }
         });
 
-        return new Instances(nameOfDataset, attributes, 100);
+        Instances instances = new Instances(nameOfDataset, attributes, 100);
+        return instances;
     }
 
-    private Instances makeInstances(final String nameOfDataset, Class clazz) throws ClassNotFoundException {
-        return makeInstances(nameOfDataset, clazz, false);
-    }
+//    private Instances makeInstances(final String nameOfDataset, Class clazz, boolean isClassString) throws ClassNotFoundException {
+//
+//        Field[] fields = clazz.getDeclaredFields();
+//        ArrayList<Attribute> attributes = new ArrayList<>(fields.length);
+//        Arrays.asList(fields).forEach(field -> {
+//            // Set value for message attribute
+//            String fieldName = field.getName();
+//            if (!StringUtils.equals(IGNORED_ID, fieldName)) {
+//
+//                if (StringUtils.equals(RENEW_FIELD, fieldName)) {
+//                    attributes.add(new Attribute(fieldName, isClassString));
+//                } else {
+//                    attributes.add(new Attribute(fieldName));
+//                }
+//            }
+//        });
+//
+//        return new Instances(nameOfDataset, attributes, 100);
+//    }
+
+//    private Instances makeInstances(final String nameOfDataset, Class clazz) throws ClassNotFoundException {
+//        return makeInstances(nameOfDataset, clazz, false);
+//    }
 
     private Instance makeBaseInstance(Instances instances, CompanyPojo companyPojo) {
         CompanyTraining companyTraining = normalizeService.normalizeCompanyData(companyPojo);
@@ -131,7 +151,7 @@ public class WekaClient implements InitializingBean {
         // Create instance of length fields.
         Instance instance = new DenseInstance(fields.length - 1);
 
-        Arrays.asList(fields).stream().forEach(field -> {
+        Arrays.asList(fields).forEach(field -> {
             // Set value for message attribute
             field.setAccessible(true);
             String fieldName = field.getName();
@@ -162,7 +182,7 @@ public class WekaClient implements InitializingBean {
         // Create instance of length fields.
         Instance instance = new DenseInstance(fields.length - 1);
 
-        Arrays.asList(fields).stream().forEach(field -> {
+        Arrays.asList(fields).forEach(field -> {
             // Set value for message attribute
             field.setAccessible(true);
             String fieldName = field.getName();
@@ -194,7 +214,7 @@ public class WekaClient implements InitializingBean {
         // Create instance of length fields.
         Instance instance = new DenseInstance(fields.length - 1);
 
-        Arrays.asList(fields).stream().forEach(field -> {
+        Arrays.asList(fields).forEach(field -> {
             // Set value for message attribute
             field.setAccessible(true);
             String fieldName = field.getName();

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -128,9 +129,14 @@ public class DataNormalizeService {
     private CompanyMixedTraining normalizeMixed2Year(CompanyMixed companyMixed) {
         Date endAt = companyMixed.getEndAt();
         Date beginAt = companyMixed.getBeginAt();
-        long delta = endAt.getTime() - beginAt.getTime();
-        long yearMills = DateUtils.MILLIS_PER_DAY * 365;
-        double factor = (double) delta / yearMills;
+        double factor = 1;
+        if (Objects.nonNull(endAt) && Objects.nonNull(beginAt)) {
+            long delta = endAt.getTime() - beginAt.getTime();
+            long yearMills = DateUtils.MILLIS_PER_DAY * 365;
+            factor = (double) delta / yearMills;
+        }
+
+
         CompanyMixedTraining normalizeData = beanMapper.map(companyMixed, CompanyMixedTraining.class);
         normalizeData.setSearchNum((int) Math.ceil(companyMixed.getSearchNum() * factor));
         normalizeData.setExportNum((int) Math.ceil(companyMixed.getExportNum() * factor));
