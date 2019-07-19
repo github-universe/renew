@@ -104,7 +104,7 @@ public class WekaClient implements InitializingBean {
 //        mixedRfInstances.add(toRfPredictInstance);
         double rFValue = companyMixedRfClassifier.classifyInstance(toPredictInstance);
         LOGGER.info("Predict mixed info : {} ,value: {}, LR value is {}, RF value is {}.", mixedPojo, value, lRvalue, rFValue);
-        return lRvalue;
+        return (lRvalue + rFValue + value) /3;
     }
 
     private Instances makeInstances(final String nameOfDataset, Class clazz) throws ClassNotFoundException {
@@ -226,12 +226,12 @@ public class WekaClient implements InitializingBean {
             try {
                 if (!StringUtils.equals(IGNORED_ID, fieldName)) {
                     if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                        LOGGER.info("Make mixed instance with field: {}, value: {}", fieldName, field.get(mixedTraining));
+                        LOGGER.debug("Make mixed instance with field: {}, value: {}", fieldName, field.get(mixedTraining));
                         Attribute attribute = instances.attribute(fieldName);
                         instances.setClass(attribute);
                         instance.setValue(attribute, (Integer) field.get(mixedTraining));
                     } else {
-                        LOGGER.info("Make mixed instance with field: {}, value: {}", fieldName, field.get(mixedTraining));
+                        LOGGER.debug("Make mixed instance with field: {}, value: {}", fieldName, field.get(mixedTraining));
                         Attribute attribute = instances.attribute(fieldName);
                         instance.setValue(attribute, (Integer) field.get(mixedTraining));
                     }
@@ -295,7 +295,7 @@ public class WekaClient implements InitializingBean {
         ClassPathResource companyLrMixedModel = new ClassPathResource("model/company_mixed_LR.model");
         companyMixedLrClassifier = (Classifier) SerializationHelper.read(companyLrMixedModel.getInputStream());
 
-        ClassPathResource companyMixedRfModel = new ClassPathResource("model/company_mixed_RF2.model");
+        ClassPathResource companyMixedRfModel = new ClassPathResource("model/company_mixed_RF3.model");
         companyMixedRfClassifier = (Classifier) SerializationHelper.read(companyMixedRfModel.getInputStream());
 //        ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed.model");
         ClassPathResource companyMixedModel = new ClassPathResource("model/company_mixed_training.model");

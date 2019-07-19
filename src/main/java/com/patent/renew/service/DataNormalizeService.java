@@ -107,9 +107,7 @@ public class DataNormalizeService {
     private CompanyStatisticsTraining normalizeStatistics2Year(CompanyStatistics companyStatistics) {
         Date endAt = companyStatistics.getEndAt();
         Date beginAt = companyStatistics.getBeginAt();
-        long delta = endAt.getTime() - beginAt.getTime();
-        long yearMills = DateUtils.MILLIS_PER_DAY * 365;
-        double factor = (double) yearMills / delta;
+        double factor = getNormalizeFactor(endAt, beginAt);
         CompanyStatisticsTraining normalizeData = beanMapper.map(companyStatistics, CompanyStatisticsTraining.class);
         normalizeData.setSearchNum((int) Math.ceil(companyStatistics.getSearchNum() * factor));
         normalizeData.setExportNum((int) Math.ceil(companyStatistics.getExportNum() * factor));
@@ -129,12 +127,7 @@ public class DataNormalizeService {
     private CompanyMixedTraining normalizeMixed2Year(CompanyMixed companyMixed) {
         Date endAt = companyMixed.getEndAt();
         Date beginAt = companyMixed.getBeginAt();
-        double factor = 1;
-        if (Objects.nonNull(endAt) && Objects.nonNull(beginAt)) {
-            long delta = endAt.getTime() - beginAt.getTime();
-            long yearMills = DateUtils.MILLIS_PER_DAY * 365;
-            factor = (double) yearMills/ delta;
-        }
+        double factor = getNormalizeFactor(endAt, beginAt);
 
 
         CompanyMixedTraining normalizeData = beanMapper.map(companyMixed, CompanyMixedTraining.class);
@@ -150,5 +143,21 @@ public class DataNormalizeService {
         normalizeData.setWorkspaceCreatedNum((int) Math.ceil(companyMixed.getWorkspaceCreatedNum() * factor));
         normalizeData.setLoginNum((int) Math.ceil(companyMixed.getLoginNum() * factor));
         return normalizeData;
+    }
+
+    private double getNormalizeFactor(Date endAt, Date beginAt) {
+        double factor = 1;
+        if (Objects.nonNull(endAt) && Objects.nonNull(beginAt)) {
+            Date now = new Date();
+            if (endAt.after(now)) {
+                endAt = now;
+            }
+            long delta = endAt.getTime() - beginAt.getTime();
+            if (delta > 0) {
+                long yearMills = DateUtils.MILLIS_PER_DAY * 365;
+                factor = (double) yearMills/ delta;
+            }
+        }
+        return factor;
     }
 }
