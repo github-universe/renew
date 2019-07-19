@@ -163,7 +163,8 @@ public class WekaClient implements InitializingBean {
             try {
                 if (!StringUtils.equals(IGNORED_ID, fieldName)) {
                     if (StringUtils.equals(RENEW_FIELD, fieldName)) {
-                        instance.setValue(attribute, Double.valueOf((String) field.get(companyTraining)));
+                        instance.setValue(attribute, (Integer)field.get(companyTraining));
+//                        instance.setValue(attribute, Double.valueOf((String) field.get(companyTraining)));
                     } else {
                         instance.setValue(attribute, (Integer) field.get(companyTraining));
                     }
